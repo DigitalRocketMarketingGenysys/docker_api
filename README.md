@@ -3,7 +3,7 @@ DockerApi
 
 A Docker Api client for Elixir
 
-[Docker API Version <= 1.29](https://docs.docker.com/engine/api/v1.29/)
+[Docker API Version <= 1.41](https://docs.docker.com/engine/api/v1.41/)
 
 
 * Supports TCP

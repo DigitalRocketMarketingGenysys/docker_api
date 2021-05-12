@@ -5,4 +5,4 @@
                         'Elixir.DockerApi.Daemon','Elixir.DockerApi.Events',
                         'Elixir.DockerApi.HTTP','Elixir.DockerApi.Image']},
               {registered,[]},
-              {vsn,"0.5.0"}]}.
+              {vsn,"0.5.1"}]}.

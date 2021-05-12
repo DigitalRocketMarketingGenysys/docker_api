@@ -33,10 +33,25 @@ DockerApi.start("/var/run/docker.sock", :unix) #=> {:ok, pid}
 
 #### Container
 
+__all\0__
+
+```elixir
+# Uses application set host
+{:ok, body, code } = DockerApi.all
+```
+
 __all\1__
 
 ```elixir
+# Uses custom set host
 {:ok, body, code } = DockerApi.all("127.0.0.1")
+```
+
+__find\2__
+
+```elixir
+# Uses application set host
+{:ok, body, code } = DockerApi.Container.get("12345")
 ```
 
 __find\2__
@@ -55,7 +70,7 @@ Find can also take a List of hosts to search through.
 __top\2__
 
  ```elixir
-{:ok, body, code } = DockerApi.Container.top("127.0.0.1", "12345")
+{:ok, body, code } = DockerApi.Container.top("12345")
 ```
 
 __create\2__

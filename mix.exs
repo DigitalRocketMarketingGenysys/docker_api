@@ -31,7 +31,7 @@ defmodule DockerApi.Mixfile do
   defp deps do
     [
       {:ibrowse, "~> 4.2"},
-      {:httpoison, "~> 0.11.0"},
+      {:httpoison, "~> 1.8"},
       {:mock, "~> 0.1", only: :test},
       {:poison, "~> 2.2.0"}
     ]

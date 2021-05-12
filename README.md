@@ -20,18 +20,15 @@ Add `docker_api` to your `mix.exs`
   end
 ```
 
-Make sure it gets started
+Make sure it gets started with host & method
 
 ```elixir
-  def application do
-    [applications: [:logger, :docker_api]]
-  end
+DockerApi.start("127.0.0.1", :tcp) #=> {:ok, pid}
 ```
-
-You can start it by hand also
+or
 
 ```elixir
-DockerApi.start #=> {:ok, []}
+DockerApi.start("/var/run/docker.sock", :unix) #=> {:ok, pid}
 ```
 
 #### Container
@@ -128,5 +125,5 @@ __build\3__
 - [ ] Finish mapping all the API endpoints
 - [ ] Events do not stream forever; only show because of IO.inspect
 - [ ] Talk to docker hosts that use credentails/TLS
-- [ ] Finish docstrings 
+- [ ] Finish docstrings
 - [ ] Mock all the HTTP calls

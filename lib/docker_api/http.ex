@@ -1,5 +1,6 @@
 defmodule DockerApi.HTTP do
   require Logger
+  @host Application.get_env(:docker_api, :host)
   @moduledoc """
     HTTP handler for all REST calls to the Docker API
   """
@@ -10,7 +11,9 @@ defmodule DockerApi.HTTP do
              {:ok, %{body: "foo", headers: _, status_code: 200} }
   """
   def get(url) do
-    HTTPoison.get(url)
+    url
+    |> handle_request
+    |> HTTPoison.get
   end
 
   @doc """
@@ -22,10 +25,10 @@ defmodule DockerApi.HTTP do
   """
   def get(url, opts) when is_map(opts) do
     Logger.warn "API: Getting Docker API Request"
-    IO.inspect url
-    IO.inspect opts
-    url = url <> "?#{encode_query_params(opts)}"
-    HTTPoison.get(url)
+    url
+    |> handle_request(opts)
+    |> HTTPoison.get
+
   end
 
   @doc """
@@ -48,6 +51,33 @@ defmodule DockerApi.HTTP do
   def delete(url, opts) do
     url = url <> "?#{encode_query_params(opts)}"
     HTTPoison.delete(url)
+  end
+
+  defp handle_request(url, opts) do
+    Logger.warn "Handling Potential Request to be sent by Docker Engine API"
+    host = Application.get_env(:docker_api, :host)
+    with %{host: host, method: :unix} <- host do
+      Logger.warn "Sending Request via: Unix"
+      url = "http+unix://#{URI.encode_www_form(host)}#{url}?#{encode_query_params(opts)}" |> IO.inspect
+    else
+    %{host: host, method: :tcp} ->
+      Logger.warn "Sending Request via: TCP"
+      url
+    end
+  end
+
+  defp handle_request(url) do
+    Logger.warn "Handling Potential Request to be sent by Docker Engine API"
+    IO.inspect url
+    host = Application.get_env(:docker_api, :host)
+    with %{host: host, method: :unix} <- host do
+      Logger.warn "Sending Request via: Unix"
+      url = "http+unix://#{URI.encode_www_form(host)}#{url}" |> IO.inspect
+    else
+    %{host: host, method: :tcp} ->
+      Logger.warn "Sending Request via: TCP"
+      url
+    end
   end
 
   def handle_response(resp = {:ok, %{status_code: 200, body: _body}}) do

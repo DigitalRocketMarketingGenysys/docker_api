@@ -3,6 +3,7 @@ defmodule DockerApi.Container do
   import DockerApi.HTTP, only: :functions
   alias DockerApi.HTTP
 
+
   @doc """
   Fetch all the containers from a given docker host
 
@@ -14,6 +15,12 @@ defmodule DockerApi.Container do
   def all(host) when is_binary(host) do
     Logger.warn "API: Getting all docker containers"
     response = HTTP.get(host <> "/containers/json", %{all: 1})
+    handle_response(response)
+  end
+
+  def all() do
+    Logger.warn "API: Getting all docker containers using preconfigured host"
+    response = HTTP.get("/containers/json", %{all: 1})
     handle_response(response)
   end
 
@@ -56,6 +63,12 @@ defmodule DockerApi.Container do
   """
   def find(host, id) when is_binary(host) do
     response = HTTP.get(host <> "/containers/#{id}/json")
+    handle_response(response)
+  end
+
+  def find(container_id) when is_binary(container_id) do
+    Logger.warn "Finding Container"
+    response = HTTP.get("/containers/#{container_id}/json")
     handle_response(response)
   end
 

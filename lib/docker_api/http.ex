@@ -1,5 +1,5 @@
 defmodule DockerApi.HTTP do
-
+  require Logger
   @moduledoc """
     HTTP handler for all REST calls to the Docker API
   """
@@ -21,6 +21,9 @@ defmodule DockerApi.HTTP do
              {:ok, %{body: "foo", headers: _, status_code: 200} }
   """
   def get(url, opts) when is_map(opts) do
+    Logger.warn "API: Getting Docker API Request"
+    IO.inspect url
+    IO.inspect opts
     url = url <> "?#{encode_query_params(opts)}"
     HTTPoison.get(url)
   end
@@ -94,6 +97,9 @@ defmodule DockerApi.HTTP do
         {:ok, body, code }
       "application/json" ->
         {:ok, Poison.decode!(body), code }
+      "text/html; charset="<>charset ->
+        # Added support for universal char set
+        {:ok, body, code}
     end
   end
 

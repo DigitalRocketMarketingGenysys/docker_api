@@ -1,5 +1,5 @@
 defmodule DockerApi.Container do
-
+  require Logger
   import DockerApi.HTTP, only: :functions
   alias DockerApi.HTTP
 
@@ -12,6 +12,7 @@ defmodule DockerApi.Container do
         [%{...}, ..]
   """
   def all(host) when is_binary(host) do
+    Logger.warn "API: Getting all docker containers"
     response = HTTP.get(host <> "/containers/json", %{all: 1})
     handle_response(response)
   end
@@ -28,6 +29,7 @@ defmodule DockerApi.Container do
         [%{...}, ..]
   """
   def all(host, opts) when is_map(opts) do
+
     response = HTTP.get(host <> "/containers/json", opts)
     handle_response(response)
   end

@@ -2,6 +2,15 @@ defmodule DockerApi do
   use Application
   require Logger
 
+  @doc """
+  Starts the DockerApi Application
+
+      iex> DockerApi.start("127.0.0.1", :tcp)
+        {:ok, pid}
+
+        iex> DockerApi.start("/var/run/docker.sock", :unix)
+          {:ok, pid}
+  """
   def start(host, method) do
     Logger.warn "Starting Elixir Docker API"
     {:ok, _} = Application.ensure_all_started(:httpoison)

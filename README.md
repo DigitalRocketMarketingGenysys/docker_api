@@ -6,7 +6,8 @@ A Docker Api client for Elixir
 [Docker API Version <= 1.29](https://docs.docker.com/engine/api/v1.29/)
 
 
-* currently only supports TCP
+* Supports TCP
+* Supports Unix
 
 #### Usage
 

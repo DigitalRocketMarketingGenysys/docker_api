@@ -1,6 +1,9 @@
 defmodule DockerApi.Events do
   import DockerApi.HTTP, only: :functions
 
+  require Logger
+
+
   @doc """
   Stream docker host events in real time
 
@@ -48,4 +51,23 @@ defmodule DockerApi.Events do
       acc
     end
   end
+
+  @doc """
+  Handle Events Emitted from Daemon
+
+     handle_event(%{"Action" => "start", "Actor" => actor_map})
+    {:stop, actor_map}
+  """
+  def handle_event(event, agent) do
+  #  Logger.info "Handing Agent Event from the events Daemon"
+    event = handle_event(event)
+    GenServer.cast(agent, {:event, event})
+  end
+
+  defp handle_event(%{"Action" => "stop", "Actor" => actor}), do: {:stop, actor}
+  defp handle_event(%{"Action" => "start", "Actor" => actor}), do: {:start, actor}
+  defp handle_event(%{"Action" => "restart", "Actor" => actor}), do: {:restart, actor}
+  defp handle_event(%{"Action" => "kill", "Actor" => actor}), do: {:kill, actor}
+  defp handle_event(%{"Action" => action, "Actor" => actor}), do: {:unknown, actor}
+
 end

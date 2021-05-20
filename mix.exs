@@ -5,6 +5,7 @@ defmodule DockerApi.Mixfile do
     [app: :docker_api,
       version: "0.5.1",
       elixir: "~> 1.0",
+      config_path: "../../config/config.exs",
       description: description(),
       package: package(),
       deps: deps()]

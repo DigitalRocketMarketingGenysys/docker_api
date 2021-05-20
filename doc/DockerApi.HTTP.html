@@ -8,7 +8,7 @@
     <meta name="project" content="docker_api v0.5.1">
     <title>DockerApi.HTTP — docker_api v0.5.1</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
-    <script src="dist/sidebar_items-af974e45a8.js"></script>
+    <script src="dist/sidebar_items-b610ecea15.js"></script>
       <script src="docs_config.js"></script>
     <script async src="dist/app-f27ff079945e43879c46.js"></script>
   </head>
@@ -146,6 +146,12 @@ docker_api      </a>
     <a href="#query_params/1">query_params(args)</a>
   </div>
 </div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#stream/2">stream(url, agent)</a>
+  </div>
+    <div class="summary-synopsis"><p>STREAM</p></div>
+</div>
   </div>
         </section>
 
@@ -233,8 +239,8 @@ Functions          </h1>
 
   <section class="docstring">
 
-<p>GET</p><pre><code class="makeup elixir"><span class="w">  </span><span class="gp unselectable">iex&gt; </span><span class="nc">DockerApi.HTTP</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="7099898029-1">(</span><span class="s">&quot;http://httpbin.org/get&quot;</span><span class="p" data-group-id="7099898029-1">)</span><span class="w">
-       </span><span class="p" data-group-id="7099898029-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7099898029-3">%{</span><span class="ss">body</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">headers</span><span class="p">:</span><span class="w"> </span><span class="bp">_</span><span class="p">,</span><span class="w"> </span><span class="ss">status_code</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p" data-group-id="7099898029-3">}</span><span class="w"> </span><span class="p" data-group-id="7099898029-2">}</span></code></pre>  </section>
+<p>GET</p><pre><code class="makeup elixir"><span class="w">  </span><span class="gp unselectable">iex&gt; </span><span class="nc">DockerApi.HTTP</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="6104328338-1">(</span><span class="s">&quot;http://httpbin.org/get&quot;</span><span class="p" data-group-id="6104328338-1">)</span><span class="w">
+       </span><span class="p" data-group-id="6104328338-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6104328338-3">%{</span><span class="ss">body</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">headers</span><span class="p">:</span><span class="w"> </span><span class="bp">_</span><span class="p">,</span><span class="w"> </span><span class="ss">status_code</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p" data-group-id="6104328338-3">}</span><span class="w"> </span><span class="p" data-group-id="6104328338-2">}</span></code></pre>  </section>
 </section>
 <section class="detail" id="get/2">
   <div class="detail-header">
@@ -247,8 +253,8 @@ Functions          </h1>
 
   <section class="docstring">
 
-<p>GET with query params</p><ul><li><p>opts must be a map</p><pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">DockerApi.HTTP</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="9266754352-1">(</span><span class="s">&quot;http://httpbin.org/get&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9266754352-2">%{</span><span class="ss">foo</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="9266754352-2">}</span><span class="p" data-group-id="9266754352-1">)</span><span class="w">
-     </span><span class="p" data-group-id="9266754352-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9266754352-4">%{</span><span class="ss">body</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">headers</span><span class="p">:</span><span class="w"> </span><span class="bp">_</span><span class="p">,</span><span class="w"> </span><span class="ss">status_code</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p" data-group-id="9266754352-4">}</span><span class="w"> </span><span class="p" data-group-id="9266754352-3">}</span></code></pre></li></ul>  </section>
+<p>GET with query params</p><ul><li><p>opts must be a map</p><pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">DockerApi.HTTP</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="0559027229-1">(</span><span class="s">&quot;http://httpbin.org/get&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0559027229-2">%{</span><span class="ss">foo</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="0559027229-2">}</span><span class="p" data-group-id="0559027229-1">)</span><span class="w">
+     </span><span class="p" data-group-id="0559027229-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0559027229-4">%{</span><span class="ss">body</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">headers</span><span class="p">:</span><span class="w"> </span><span class="bp">_</span><span class="p">,</span><span class="w"> </span><span class="ss">status_code</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p" data-group-id="0559027229-4">}</span><span class="w"> </span><span class="p" data-group-id="0559027229-3">}</span></code></pre></li></ul>  </section>
 </section>
 <section class="detail" id="handle_response/1">
   <div class="detail-header">
@@ -288,8 +294,8 @@ Functions          </h1>
 
   <section class="docstring">
 
-<p>POST with optional payload</p><ul><li><p>opts must be a map</p></li><li><p>payload is sent as JSON</p><pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">DockerApi.HTTP</span><span class="o">.</span><span class="n">post</span><span class="p" data-group-id="8939643275-1">(</span><span class="s">&quot;http://httpbin.org/get&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8939643275-2">%{</span><span class="ss">foo</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8939643275-2">}</span><span class="p" data-group-id="8939643275-1">)</span><span class="w">
-     </span><span class="p" data-group-id="8939643275-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8939643275-4">%{</span><span class="ss">body</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">headers</span><span class="p">:</span><span class="w"> </span><span class="bp">_</span><span class="p">,</span><span class="w"> </span><span class="ss">status_code</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p" data-group-id="8939643275-4">}</span><span class="w"> </span><span class="p" data-group-id="8939643275-3">}</span></code></pre></li></ul>  </section>
+<p>POST with optional payload</p><ul><li><p>opts must be a map</p></li><li><p>payload is sent as JSON</p><pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">DockerApi.HTTP</span><span class="o">.</span><span class="n">post</span><span class="p" data-group-id="9886157838-1">(</span><span class="s">&quot;http://httpbin.org/get&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9886157838-2">%{</span><span class="ss">foo</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="9886157838-2">}</span><span class="p" data-group-id="9886157838-1">)</span><span class="w">
+     </span><span class="p" data-group-id="9886157838-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9886157838-4">%{</span><span class="ss">body</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">headers</span><span class="p">:</span><span class="w"> </span><span class="bp">_</span><span class="p">,</span><span class="w"> </span><span class="ss">status_code</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p" data-group-id="9886157838-4">}</span><span class="w"> </span><span class="p" data-group-id="9886157838-3">}</span></code></pre></li></ul>  </section>
 </section>
 <section class="detail" id="query_params/1">
   <div class="detail-header">
@@ -303,6 +309,20 @@ Functions          </h1>
   <section class="docstring">
 
   </section>
+</section>
+<section class="detail" id="stream/2">
+  <div class="detail-header">
+    <a href="#stream/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">stream(url, agent)</h1>
+  </div>
+
+  <section class="docstring">
+
+<p>STREAM</p><pre><code class="makeup elixir"><span class="w">  </span><span class="gp unselectable">iex&gt; </span><span class="nc">DockerApi.HTTP</span><span class="o">.</span><span class="n">stream</span><span class="p" data-group-id="8078996582-1">(</span><span class="s">&quot;http://httpbin.org/get&quot;</span><span class="p" data-group-id="8078996582-1">)</span><span class="w">
+       </span><span class="p" data-group-id="8078996582-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8078996582-3">%{</span><span class="ss">body</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">headers</span><span class="p">:</span><span class="w"> </span><span class="bp">_</span><span class="p">,</span><span class="w"> </span><span class="ss">status_code</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p" data-group-id="8078996582-3">}</span><span class="w"> </span><span class="p" data-group-id="8078996582-2">}</span></code></pre>  </section>
 </section>
           </div>
         </section>

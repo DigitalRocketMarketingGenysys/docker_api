@@ -8,7 +8,7 @@
     <meta name="project" content="docker_api v0.5.1">
     <title>DockerApi.Events — docker_api v0.5.1</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
-    <script src="dist/sidebar_items-af974e45a8.js"></script>
+    <script src="dist/sidebar_items-b610ecea15.js"></script>
       <script src="docs_config.js"></script>
     <script async src="dist/app-f27ff079945e43879c46.js"></script>
   </head>
@@ -98,6 +98,12 @@ docker_api      </a>
   </div>
     <div class="summary-synopsis"><p>Poll docker host events between since and until</p></div>
 </div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_event/2">handle_event(event, agent)</a>
+  </div>
+    <div class="summary-synopsis"><p>Handle Events Emitted from Daemon</p></div>
+</div>
   </div>
         </section>
 
@@ -136,6 +142,19 @@ Functions          </h1>
 
 <p>Poll docker host events between since and until</p><ul><li><p>if <code class="inline">until</code> is not supplied the stream will block until the timeout is reached</p><p> iex&gt; DockerApi.Events.all(&quot;127.0.0.1&quot;, %{since: 1374067924, until: 1425227650})
    [%{...}, ..]</p></li></ul>  </section>
+</section>
+<section class="detail" id="handle_event/2">
+  <div class="detail-header">
+    <a href="#handle_event/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_event(event, agent)</h1>
+  </div>
+
+  <section class="docstring">
+
+<p>Handle Events Emitted from Daemon</p><p>   handle_event(%{&quot;Action&quot; =&gt; &quot;start&quot;, &quot;Actor&quot; =&gt; actor_map})</p>  </section>
 </section>
           </div>
         </section>

@@ -21,7 +21,14 @@ Add `docker_api` to your `mix.exs`
   end
 ```
 
-Make sure it gets started with host & method
+Add `:docker_api` to your `config.exs`
+
+```elixir
+config :docker_api,
+  host: %{host: "/var/run/docker.sock", method: :unix}
+```
+
+OR, start manually to set the ENV variables
 
 ```elixir
 DockerApi.start("127.0.0.1", :tcp) #=> {:ok, pid}

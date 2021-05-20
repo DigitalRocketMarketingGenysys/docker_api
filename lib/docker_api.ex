@@ -1,15 +1,19 @@
 defmodule DockerApi do
   use Application
   require Logger
+  @moduledoc """
+  Application to interface with the Docker Engine API, either through unix or tcp
+  """
 
   @doc """
-  Starts the DockerApi Application
+  Starts the DockerApi Application setting the application environment that will be used to interface with the Docker Engine.
+  <br>Note: if not set, application will not start.
 
       iex> DockerApi.start("127.0.0.1", :tcp)
         {:ok, pid}
 
-        iex> DockerApi.start("/var/run/docker.sock", :unix)
-          {:ok, pid}
+      iex> DockerApi.start("/var/run/docker.sock", :unix)
+        {:ok, pid}
   """
   def start(host, method) do
     Logger.warn "Starting Elixir Docker API"

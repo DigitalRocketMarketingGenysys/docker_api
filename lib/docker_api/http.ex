@@ -17,6 +17,17 @@ defmodule DockerApi.HTTP do
   end
 
   @doc """
+  STREAM
+        iex> DockerApi.HTTP.stream("http://httpbin.org/get")
+             {:ok, %{body: "foo", headers: _, status_code: 200} }
+  """
+  def stream(url, agent) do
+    url
+    |> handle_request
+    |> HTTPoison.get(%{"Accept" => "application/json"}, [recv_timeout: :infinity, stream_to: agent])
+  end
+
+  @doc """
   GET with query params
   * opts must be a map
 

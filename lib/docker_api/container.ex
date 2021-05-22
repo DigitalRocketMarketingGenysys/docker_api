@@ -134,6 +134,11 @@ defmodule DockerApi.Container do
     response = HTTP.post(host <> "/containers/#{id}/stop")
     handle_response(response)
   end
+  
+  def restart(id) do
+    response = HTTP.post("/containers/#{id}/restart")
+    handle_response(response)
+  end
 
   def restart(host, id) do
     response = HTTP.post(host <> "/containers/#{id}/restart")

@@ -52,7 +52,9 @@ defmodule DockerApi.HTTP do
   """
 
   def post(url, opts \\ %{}) do
-    HTTPoison.post(url, Poison.encode!(opts), %{"Content-type" => "application/json"})
+    url
+    |> handle_request(opts)
+    |> HTTPoison.post(Poison.encode!(opts), %{"Content-type" => "application/json"})
   end
 
   def delete(url) do

@@ -134,14 +134,16 @@ defmodule DockerApi.Container do
     response = HTTP.post(host <> "/containers/#{id}/stop")
     handle_response(response)
   end
-  
+
   def restart(id) do
-    response = HTTP.post("/containers/#{id}/restart")
+    Logger.warn "Debugging Restart #1"
+    response = HTTP.post("/containers/#{id}/restart") |> IO.inspect
     handle_response(response)
   end
 
   def restart(host, id) do
-    response = HTTP.post(host <> "/containers/#{id}/restart")
+    Logger.warn "Debugging Restart #2"
+    response = HTTP.post("/var/run/docker.sock/containers/#{id}/restart") |> IO.inspect
     handle_response(response)
   end
 

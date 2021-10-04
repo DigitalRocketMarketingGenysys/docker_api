@@ -27,6 +27,8 @@ defmodule DockerApi.HTTP do
     |> HTTPoison.get(%{"Accept" => "application/json"}, [recv_timeout: :infinity, stream_to: agent])
   end
 
+
+
   @doc """
   GET with query params
   * opts must be a map
@@ -51,12 +53,24 @@ defmodule DockerApi.HTTP do
              {:ok, %{body: "foo", headers: _, status_code: 200} }
   """
 
-  def post(url, opts \\ %{}) do
+  def post(url, opts) do
     url
-    |> handle_request(opts)
-    |> HTTPoison.post(Poison.encode!(opts), %{"Content-type" => "application/json"})
+    |> handle_request
+    |> HTTPoison.post(Poison.encode!(opts), %{"Content-type" => "application/json"}, [recv_timeout: 500000])
   end
 
+  def post_old(url, opts) do
+    url
+    |> handle_request(opts)
+    |> HTTPoison.post(Poison.encode!(opts), %{"Content-type" => "application/json"}, [recv_timeout: 500000])
+  end
+
+
+  def post(url) do
+    url
+    |> handle_request
+    |> HTTPoison.post(Poison.encode!(%{}), %{"Content-type" => "application/json"}, [recv_timeout: 500000])
+  end
   def delete(url) do
     HTTPoison.delete(url)
   end
@@ -67,11 +81,11 @@ defmodule DockerApi.HTTP do
   end
 
   defp handle_request(url, opts) do
-    Logger.warn "Handling Potential Request to be sent by Docker Engine API"
+    Logger.warn "Handling Potential Request to be sent by Docker Engine API with arity 2"
     host = Application.get_env(:docker_api, :host)
     with %{host: host, method: :unix} <- host do
       Logger.warn "Sending Request via: Unix"
-      url = "http+unix://#{URI.encode_www_form(host)}#{url}?#{encode_query_params(opts)}" |> IO.inspect
+      url = "http+unix://#{URI.encode_www_form(host)}#{url}?#{encode_query_params(opts)}"
     else
     %{host: host, method: :tcp} ->
       Logger.warn "Sending Request via: TCP"
@@ -85,7 +99,7 @@ defmodule DockerApi.HTTP do
     host = Application.get_env(:docker_api, :host)
     with %{host: host, method: :unix} <- host do
       Logger.warn "Sending Request via: Unix"
-      url = "http+unix://#{URI.encode_www_form(host)}#{url}" |> IO.inspect
+      url = "http+unix://#{URI.encode_www_form(host)}#{url}"
     else
     %{host: host, method: :tcp} ->
       Logger.warn "Sending Request via: TCP"
@@ -115,6 +129,21 @@ defmodule DockerApi.HTTP do
 
   def handle_response(resp = {:ok, %{status_code: 404 , body: _body}}) do
     parse_response(resp)
+  end
+
+  def handle_response(resp = {:ok, %{status_code: 400 , body: _body}}) do
+    parse_response(resp)
+  end
+
+  def handle_response(resp = {:ok, %{status_code: 409 , body: _body}}) do
+    {:ok, message, code} = parse_response(resp)
+    if(!is_nil(message["message"]))do
+    [[container_id | tail]] = Regex.scan(~r/[[:alnum:]]{64}/, message["message"])
+
+    {:ok, %{"Id": container_id}, 409}
+  else
+    {:ok, %{"Id": "container_id"}, 409}
+  end
   end
 
   def handle_response(resp = {:ok, %{status_code: 500, body: _body}}) do

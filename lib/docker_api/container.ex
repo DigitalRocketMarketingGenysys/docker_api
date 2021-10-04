@@ -66,6 +66,12 @@ defmodule DockerApi.Container do
     handle_response(response)
   end
 
+  def find_by(query) do
+    Logger.warn "Finding Container of #{query}"
+    response = HTTP.get("/containers/json?all=true;filters={#{query}}")
+    handle_response(response)
+  end
+
   def find(container_id) when is_binary(container_id) do
     Logger.warn "Finding Container"
     response = HTTP.get("/containers/#{container_id}/json")
@@ -97,6 +103,23 @@ defmodule DockerApi.Container do
     handle_response(response)
   end
 
+  def start(id) do
+    response = HTTP.post("/containers/#{id}/start")
+    handle_response(response)
+  end
+
+  def update(id, params) do
+    Logger.warn "Updating the container"
+    response = HTTP.post("/containers/#{id}/update", params)
+    handle_response(response)
+  end
+
+  def rename(id, name) do
+    Logger.warn "Updating the container"
+    response = HTTP.post("/containers/#{id}/rename?name=#{name}")
+    handle_response(response)
+  end
+
   def start(host, id) do
     response = HTTP.post(host <> "/containers/#{id}/start")
     handle_response(response)
@@ -104,11 +127,6 @@ defmodule DockerApi.Container do
 
   def start(host, id, opts) do
     response = HTTP.post(host <> "/containers/#{id}/start", opts)
-    handle_response(response)
-  end
-
-  def create(host, opts) do
-    response = HTTP.post(host <> "/containers/create", opts)
     handle_response(response)
   end
 
@@ -135,15 +153,32 @@ defmodule DockerApi.Container do
     handle_response(response)
   end
 
+  def stop(id) do
+    response = HTTP.post("/containers/#{id}/stop")
+    handle_response(response)
+  end
+
+  def wait(id, condition) do
+    response = HTTP.post("/containers/#{id}/wait?condition=#{condition}")
+    handle_response(response)
+  end
+
   def restart(id) do
     Logger.warn "Debugging Restart #1"
-    response = HTTP.post("/containers/#{id}/restart") |> IO.inspect
+    host = Application.get_env(:docker_api, :host)
+    response = HTTP.post("/containers/#{id}/restart")
+    handle_response(response)
+  end
+
+  def create(name, opts) do
+    
+    response = HTTP.post("/containers/create?name=#{name}", opts)
     handle_response(response)
   end
 
   def restart(host, id) do
     Logger.warn "Debugging Restart #2"
-    response = HTTP.post("/var/run/docker.sock/containers/#{id}/restart") |> IO.inspect
+    response = HTTP.post("/var/run/docker.sock/containers/#{id}/restart")
     handle_response(response)
   end
 
@@ -162,6 +197,11 @@ defmodule DockerApi.Container do
     {:ok, stream_loop([]) |> Enum.reverse }
   end
 
+  def exec_start(id, opts) do
+    {:ok, %HTTPoison.AsyncResponse{id: _id}} = HTTPoison.post "/exec/#{id}/start?stream=0", Poison.encode!(opts), %{"content-type" => "application/json"}, stream_to: self()
+    {:ok, stream_loop([]) |> Enum.reverse }
+  end
+
   @doc """
 
   Fetch the logs from a container
@@ -171,6 +211,11 @@ defmodule DockerApi.Container do
   """
   def logs(host, id) do
     {:ok, %HTTPoison.AsyncResponse{id: _id}} = HTTPoison.get host <> "/containers/#{id}/logs?stderr=1&stdout=1&timestamps=1&tail=50", %{}, stream_to: self()
+    {:ok, stream_loop([]) |> Enum.reverse }
+  end
+
+  def logs(id) do
+    {:ok, %HTTPoison.AsyncResponse{id: _id}} = HTTP.stream "/containers/#{id}/logs?stderr=1&stdout=1&timestamps=1&tail=50", self()
     {:ok, stream_loop([]) |> Enum.reverse }
   end
 
@@ -199,7 +244,13 @@ defmodule DockerApi.Container do
   # WIP dont use
   def attach(host, id) do
     response = HTTP.post host <> "/containers/#{id}/attach?logs=1&stream=1&stdout=1&stdin=1"
+    HTTP.stream("/containers/#{id}/attach", self())
     response
+  end
+
+  def attach(id) do
+  DockerApi.HTTPStream.stream("/containers/#{id}/attach?logs=1&stream=1&stdout=1&stdin=1")
+
   end
 
 end

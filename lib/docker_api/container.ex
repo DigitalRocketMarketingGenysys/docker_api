@@ -171,8 +171,9 @@ defmodule DockerApi.Container do
   end
 
   def create(name, opts) do
-    
-    response = HTTP.post("/containers/create?name=#{name}", opts)
+    Logger.warn "Debugging container create"
+    IO.inspect opts
+    response = HTTP.post("/containers/create?name=#{name}", opts) |> IO.inspect
     handle_response(response)
   end
 

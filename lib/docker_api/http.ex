@@ -146,7 +146,9 @@ defmodule DockerApi.HTTP do
   end
   end
 
-  def handle_response(resp = {:ok, %{status_code: 500, body: _body}}) do
+  def handle_response(resp = {:ok, %{status_code: 500, body: body}}) do
+    Logger.warn "Handling error repsonse"
+    IO.inspect body
     parse_response(resp)
   end
 
@@ -181,7 +183,7 @@ defmodule DockerApi.HTTP do
   end
 
   def encode_query_params(opts) do
-   URI.encode_query(opts)
+   Plug.Conn.Query.encode(opts)
   end
 
   def encode_attribute(k, v), do: "#{k}=#{encode_value(v)}"
